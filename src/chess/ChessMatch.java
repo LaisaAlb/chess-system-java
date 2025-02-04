@@ -3,7 +3,7 @@ package chess;
 import boardgame.Board;
 import boardgame.Piece;
 import chessPieces.King;
-import chessPieces.Rook;
+import chess.chessPieces.Rook;
 import boardgame.Position;
 
 public class ChessMatch {
@@ -33,6 +33,7 @@ public class ChessMatch {
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
         validateSourcePosition (source);
+        validateTargetPosition(source, target);
         Piece capturePiece = makeMove(source, target);
         return (ChessPiece)capturePiece;
     }    
@@ -66,5 +67,11 @@ public class ChessMatch {
         Piece capturedPiece = board.remoPiece(target);
         board.placePiece(p, target);
         return capturedPiece;
+    }
+
+    private void validateTargetPosition(Position source, Position target) {
+        if(!board.piece(source).possibleMove(target)){
+            throw new ChessException("The chosen piece can't move to target position");
+        }
     }
 }
